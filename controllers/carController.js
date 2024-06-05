@@ -2,7 +2,7 @@ const CarRepository = require("../repositories/carRepository.js");
 const fs = require("fs");
 const path = require("path");
 const dotenv = require("dotenv");
-const { saveImages, updateImages } = require("../utils/imageUtils.js");
+const { saveImages, updateImages, deleteImages } = require("../utils/imageUtils.js");
 
 dotenv.config();
 
