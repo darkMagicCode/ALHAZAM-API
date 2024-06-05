@@ -1,4 +1,10 @@
 const CarRepository = require("../repositories/carRepository.js");
+const fs = require("fs");
+const path = require("path");
+const dotenv = require("dotenv");
+const { saveImages, updateImages } = require("../utils/imageUtils.js");
+
+dotenv.config();
 
 class CarController {
   async getAll(req, res) {
@@ -11,17 +17,47 @@ class CarController {
     res.json(Car);
   }
 
+  // Inside create method
   async create(req, res) {
-    const newCar = await CarRepository.create(req.body);
-    res.json(newCar);
+    try {
+      const { name, images } = req.body;
+      const imageUrls = await saveImages(images);
+      const carData = { name, images: imageUrls };
+      const car = await CarRepository.create(carData);
+      res.json({ car });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   }
 
   async update(req, res) {
-    const updatedCar = await CarRepository.update(req.params.id, req.body);
-    res.json(updatedCar);
+    try {
+      const { images } = req.body;
+      let imageUrls = [];
+
+      if (images && images.length > 0) {
+        imageUrls = await updateImages(images);
+      }
+
+      const updatedCarData = { ...req.body, images: imageUrls };
+      const updatedCar = await CarRepository.update(
+        req.params.id,
+        updatedCarData
+      );
+
+      res.json(updatedCar);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   }
 
   async delete(req, res) {
+    // Delete the related image files from the file system
+    await deleteImages(car.images);
+
+    // Delete the car from the database
     await CarRepository.delete(req.params.id);
     res.json({ message: "Car deleted" });
   }

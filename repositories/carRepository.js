@@ -1,25 +1,47 @@
-const Car = require('../models/Car.js');
+const Car = require("../models/Car.js");
 
 class CarRepository {
-    async findAll() {
-        return await Car.find();
+  async findAll() {
+    try {
+      return await Car.find();
+    } catch (error) {
+      throw new Error(`Error in findAll: ${error.message}`);
     }
+  }
 
-    async findById(id) {
-        return await Car.findById(id);
+  async findById(id) {
+    try {
+      return await Car.findById(id);
+    } catch (error) {
+      throw new Error(`Error in findById: ${error.message}`);
     }
+  }
 
-    async create(Car) {
-        return await Car.create(Car);
+  async create(carData) {
+    try {
+      const car = new Car(carData);
+      return await car.save();
+    } catch (error) {
+      throw new Error(`Error in create: ${error.message}`);
     }
+  }
 
-    async update(id, Car) {
-        return await Car.findByIdAndUpdate(id, Car, { new: true });
+  async update(id, carData) {
+    try {
+      const updatedCar = await Car.findByIdAndUpdate(id, carData, { new: true });
+      return updatedCar;
+    } catch (error) {
+      throw new Error(`Error in update: ${error.message}`);
     }
+  }
 
-    async delete(id) {
-        return await Car.findByIdAndDelete(id);
+  async delete(id) {
+    try {
+      return await Car.findByIdAndDelete(id);
+    } catch (error) {
+      throw new Error(`Error in delete: ${error.message}`);
     }
+  }
 }
 
 module.exports = new CarRepository();
