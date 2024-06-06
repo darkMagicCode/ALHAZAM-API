@@ -28,7 +28,9 @@ class CarRepository {
 
   async update(id, carData) {
     try {
-      const updatedCar = await Car.findByIdAndUpdate(id, carData, { new: true });
+      const updatedCar = await Car.findByIdAndUpdate(id, carData, {
+        new: true,
+      });
       return updatedCar;
     } catch (error) {
       throw new Error(`Error in update: ${error.message}`);
