@@ -67,7 +67,7 @@ class CarController {
       }
 
       // Delete the related image files from the file system
-      await deleteImages(car.images);
+      // await deleteImages(car.images);
 
       // Delete the car from the database
       await CarRepository.delete(req.params.id);
