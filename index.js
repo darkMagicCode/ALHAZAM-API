@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const path = require('path');
-const multer = require('multer');
+const path = require("path");
+const multer = require("multer");
 
 dotenv.config();
 
@@ -22,17 +22,17 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: "10mb" }));
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/');
+    cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now());
+    cb(null, file.fieldname + "-" + Date.now());
   },
 });
 
 const upload = multer({ storage: storage });
 
 // Serve uploaded images
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Connect to MongoDB
 mongoose
