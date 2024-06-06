@@ -9,7 +9,6 @@ yarn-error.log
 # IDE files
 .vscode/
 .idea/
-
 # macOS files
 .DS_Store
 
@@ -23,3 +22,5 @@ build/
 # OS generated files
 .DS_Store
 Thumbs.db
+# Uploads folder
+uploads/
