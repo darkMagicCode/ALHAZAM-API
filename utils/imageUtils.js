@@ -40,7 +40,16 @@ async function updateImages(images) {
       const imageUrl = imageUrls[i];
       const fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
       const filePath = path.join(__dirname, "../uploads/", fileName);
-      await fs.promises.unlink(filePath);
+      try {
+        await fs.promises.access(filePath);
+        await fs.promises.unlink(filePath);
+      } catch (err) {
+        if (err.code === 'ENOENT') {
+          console.warn(`File not found: ${filePath}`);
+        } else {
+          throw err;
+        }
+      }
     }
   }
   
