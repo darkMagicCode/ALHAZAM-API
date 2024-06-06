@@ -26,7 +26,7 @@ class CarController {
     try {
       const { name, images } = req.body;
       const imageUrls = await saveImages(images);
-      const carData = { name, images: imageUrls };
+      const carData = { name, images: images };
       const car = await CarRepository.create(carData);
       res.json({ car });
     } catch (error) {
@@ -44,7 +44,7 @@ class CarController {
         imageUrls = await updateImages(images);
       }
 
-      const updatedCarData = { ...req.body, images: imageUrls };
+      const updatedCarData = { ...req.body, images: images };
       const updatedCar = await CarRepository.update(
         req.params.id,
         updatedCarData
